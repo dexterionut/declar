@@ -1,0 +1,153 @@
+<form #form="ngForm" ngNativeValidate (ngSubmit)='downloadStatement()'>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 id="begin">Date personale</h4>
+          <p class="small text-muted">Completați cu datele din buletin.</p>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-12 col-md-6">
+              <label for="form_lastname" class="required">Nume</label>
+              <input type="text" class="form-control" name="form_lastname" id="form_lastname"
+                     [(ngModel)]="formData.lastName" required>
+            </div>
+            <div class="form-group col-12 col-md-6">
+              <label for="form_firstname" class="required">Prenume</label>
+              <input type="text" class="form-control" name="form_firstname" id="form_firstname"
+                     [(ngModel)]="formData.firstName" required>
+            </div>
+            <div class="form-group col-12 col-md-12">
+              <label for="form_birth_date" class="required">Data nașterii</label>
+              <input name="form_birth_date" id="form_birth_date"
+                     type="text"
+                     class="form-control"
+                     bsDatepicker
+                     [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                     [(ngModel)]="formData.birthDate"
+                     required/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <h4>Reședinta</h4>
+          <p class="small text-muted">Completați adresa în care locuiți în fapt,
+            indiferent dacă este identică
+            sau nu cu cea menționată în actul de identitate..</p>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-12 col-md-6">
+              <label for="form_city" class="required">Localitate</label>
+              <input type="text" class="form-control" name="form_city" id="form_city"
+                     [(ngModel)]="formData.city" required>
+            </div>
+            <div class="form-group col-12 col-md-6">
+              <label for="form_county" class="required">Județ/Sector</label>
+              <input type="text" class="form-control" name="form_county" id="form_county" [(ngModel)]="formData.county"
+                     required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-9">
+              <label for="form_street" class="required">Stradă</label>
+              <input type="text" class="form-control" name="form_street" id="form_street"
+                     [(ngModel)]="formData.streetName" required>
+            </div>
+            <div class="form-group col-3">
+              <label for="form_street_no" class="required">Număr</label>
+              <input type="text" class="form-control" name="form_street_no" id="form_street_no"
+                     [(ngModel)]="formData.streetNo" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6 col-md-3">
+              <label for="form_building">Bloc</label>
+              <input type="text" class="form-control" name="form_building" id="form_building"
+                     [(ngModel)]="formData.building">
+            </div>
+            <div class="form-group col-6 col-md-3">
+              <label for="form_building_entrance">Scară</label>
+              <input type="text" class="form-control" name="form_building_entrance"
+                     id="form_building_entrance" [(ngModel)]="formData.buildingEntrance">
+            </div>
+            <div class="form-group col-6 col-md-3">
+              <label for="form_building_floor">Etaj</label>
+              <input type="text" class="form-control" name="form_building_floor" id="form_building_floor"
+                     [(ngModel)]="formData.floor">
+            </div>
+            <div class="form-group col-6 col-md-3">
+              <label for="form_appartment_no">Apartament</label>
+              <input type="text" class="form-control" name="form_appartment_no" id="form_appartment_no"
+                     [(ngModel)]="formData.apartmentNo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Itinerariu</h4>
+      <p class="small text-muted">Completați detaliile despre itinerariu.</p>
+      <hr>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="form_date" class="required">Data</label>
+          <input name="form_date" id="form_date"
+                 type="text"
+                 class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                 [(ngModel)]="formData.date"
+                 required/>
+        </div>
+        <div class="form-group col-md-9">
+          <label for="form_destinations" class="required">Locul/locurile deplasării</label>
+          <input type="text" class="form-control" name="form_destinations" id="form_destinations"
+                 [(ngModel)]="formData.destinations" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Motivul deplasării</label>
+        <div class="form-check mt-1" *ngFor="let reason of reasons">
+          <input type="radio" class="form-check-input" name="form_reason" id="form_reason_{{ reason.id }}" [value]="reason.id"
+                 [(ngModel)]="formData.reasonNumber"/>
+          <label class="form-check-label" for="form_reason_{{ reason.id }}">
+            {{ reason.description }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Semnătură
+        <button type="button" class="btn btn-sm btn-secondary" id="form-signature-clear" (click)="loadSignature()">
+          Șterge
+        </button>
+      </h4>
+      <p class="small text-muted">Folosiți degetul sau cursorul pentru a semna.</p>
+      <hr>
+      <div class="border" style="height: 100px;">
+        <signature-pad [options]="signaturePadOptions"></signature-pad>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-secondary btn-block mt-2"
+                  (click)="saveStatement()"
+          >
+            Salvează date pe dispozitiv
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-success btn-block mt-2">Descarcă declarație</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
