@@ -68,8 +68,8 @@ export class TemplateService {
     return new Promise((resolve) => {
       const iframe = document.createElement('iframe');
       iframe.id = 'pdfContainer';
-      iframe.width = '710px';
-      iframe.height = '842px';
+      iframe.width = '793.70645669px';
+      iframe.height = '1122.519685px';
       document.body.append(iframe);
 
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -100,8 +100,9 @@ export class TemplateService {
 
         const width = doc.internal.pageSize.getWidth();
         const height = doc.internal.pageSize.getHeight();
+        console.log(width, height);
 
-        doc.addImage(html2canvasData.img, 'PNG', 10, 10, width, height);
+        doc.addImage(html2canvasData.img, 'PNG', 20, 10, width, height);
 
         // current date(day and month) formatted like this 27.03.2020 => 27_03_2020
         const currentDayMonth = (new Date()).toLocaleDateString('ro').replace(/\./g, '_');
