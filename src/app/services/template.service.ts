@@ -3,6 +3,7 @@ import { Statement } from '../models/statement';
 import { templateString } from '../statement-template';
 import * as html2canvas from 'html2canvas';
 import * as JsPDF from 'jspdf';
+import { SpinnerService } from '../spinner/spinner.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class TemplateService {
     'reason_10',
   ];
 
-  constructor() {
+  constructor(private spinnerService: SpinnerService) {
   }
 
   private prepareTemplate(data: Statement): string {
@@ -70,7 +71,9 @@ export class TemplateService {
       iframe.id = 'pdfContainer';
       iframe.width = '793.70645669px';
       iframe.height = '1122.519685px';
+      iframe.style.zIndex = '-999';
       document.body.append(iframe);
+      window.scrollTo(0, 0);
 
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
@@ -91,6 +94,8 @@ export class TemplateService {
   }
 
   download(data: Statement) {
+    this.spinnerService.start();
+
     const htmlString = this.prepareTemplate(data);
 
     this.convertToPng(htmlString)
@@ -100,7 +105,6 @@ export class TemplateService {
 
         const width = doc.internal.pageSize.getWidth();
         const height = doc.internal.pageSize.getHeight();
-        console.log(width, height);
 
         doc.addImage(html2canvasData.img, 'PNG', 20, 10, width, height - 10);
 
@@ -109,6 +113,9 @@ export class TemplateService {
         const fileName = 'declaratie_pe_propria_raspundere_covid_' + currentDayMonth + '.pdf';
 
         doc.save(fileName);
+      })
+      .finally(() => {
+        this.spinnerService.stop();
       });
   }
 }

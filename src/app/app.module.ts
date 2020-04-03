@@ -7,11 +7,16 @@ import { StatementFormComponent } from './statement-form/statement-form.componen
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NonChromeInfoComponent } from './non-chrome-info/non-chrome-info.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StatementFormComponent
+    StatementFormComponent,
+    NonChromeInfoComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +24,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     SignaturePadModule,
     FormsModule,
     BsDatepickerModule.forRoot(),
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ]
