@@ -11,3 +11,14 @@
 .form-group {
   margin-bottom: 1rem !important;
 }
+
+
+.signature-container {
+  height: 150px;
+}
+
+@media (min-width: 768px) {
+  .signature-container {
+    height: 120px;
+  }
+}

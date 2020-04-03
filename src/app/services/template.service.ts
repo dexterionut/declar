@@ -102,7 +102,7 @@ export class TemplateService {
         const height = doc.internal.pageSize.getHeight();
         console.log(width, height);
 
-        doc.addImage(html2canvasData.img, 'PNG', 20, 10, width, height);
+        doc.addImage(html2canvasData.img, 'PNG', 20, 10, width, height - 10);
 
         // current date(day and month) formatted like this 27.03.2020 => 27_03_2020
         const currentDayMonth = (new Date()).toLocaleDateString('ro').replace(/\./g, '_');
