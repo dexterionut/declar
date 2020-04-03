@@ -96,8 +96,12 @@ export class TemplateService {
     this.convertToPng(htmlString)
       .then((html2canvasData: any) => {
 
-        const doc: JsPDF = new JsPDF('p', 'px', 'a4');
-        doc.addImage(html2canvasData.img, 'PNG', 28, 15, 440, 710);
+        const doc: JsPDF = new JsPDF('p', 'mm', 'a4');
+
+        const width = doc.internal.pageSize.getWidth();
+        const height = doc.internal.pageSize.getHeight();
+
+        doc.addImage(html2canvasData.img, 'PNG', 10, 10, width, height);
 
         // current date(day and month) formatted like this 27.03.2020 => 27_03_2020
         const currentDayMonth = (new Date()).toLocaleDateString('ro').replace(/\./g, '_');
