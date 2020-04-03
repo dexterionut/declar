@@ -64,10 +64,12 @@ export class TemplateService {
     });
   }
 
-  private convertToPng(htmlString): Promise<string> {
+  private convertToPng(htmlString): Promise<any> {
     return new Promise((resolve) => {
       const iframe = document.createElement('iframe');
       iframe.id = 'pdfContainer';
+      iframe.width = '710px';
+      iframe.height = '842px';
       document.body.append(iframe);
 
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -78,7 +80,11 @@ export class TemplateService {
 
       // @ts-ignore
       html2canvas(iframeDoc.body).then((canvas) => {
-        resolve(canvas.toDataURL('image/png', 1));
+        resolve({
+          img: canvas.toDataURL('image/png', 1),
+          canvasWidth: canvas.width,
+          canvasHeight: canvas.height
+        });
         iframe.remove();
       });
     });
@@ -87,11 +93,11 @@ export class TemplateService {
   download(data: Statement) {
     const htmlString = this.prepareTemplate(data);
 
-    Promise.all([ this.convertToPng(htmlString) ])
-      .then((templateImage) => {
-        // @ts-ignore
-        const doc: JsPDF = new JsPDF();
-        doc.addImage(templateImage[0], 'PNG', 15, 15);
+    this.convertToPng(htmlString)
+      .then((html2canvasData: any) => {
+
+        const doc: JsPDF = new JsPDF('p', 'px', 'a4');
+        doc.addImage(html2canvasData.img, 'PNG', 28, 15, 440, 710);
 
         // current date(day and month) formatted like this 27.03.2020 => 27_03_2020
         const currentDayMonth = (new Date()).toLocaleDateString('ro').replace(/\./g, '_');
